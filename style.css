@@ -1,0 +1,137 @@
+:root {
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  font-family: "Patrick Hand", cursive;
+  color: white;
+  background: rgb(243, 239, 239);
+}
+
+button {
+  font-family: "Patrick Hand", cursive;
+  font-size: 1.2rem;
+  min-width: 7rem;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+}
+
+#subjects {
+  font-family: inherit;
+  font-size: 2.2rem;
+  background: transparent;
+  border: 0px;
+  appearance: auto;
+  color: white;
+  margin-bottom: 1.2rem;
+  padding: 1.2rem;
+}
+
+.loginPage,
+.signupPage,
+.listPage,
+.subjectList {
+  padding: 3rem;
+  border-radius: 8px;
+  align-items: center;
+  justify-items: center;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  width: fit-content;
+  height: fit-content;
+  background: #981fa8;
+}
+
+#listWrapper {
+  align-items: center;
+  justify-items: center;
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.box {
+  text-align: center;
+  padding: 30px;
+  margin: 20px;
+  box-shadow: 5px 5px 5px 5px;
+  background-color: white;
+  font-size: 30px;
+  min-width: 400px;
+  color: #000;
+  max-width: 400px;
+}
+
+#quote-wrapper {
+  flex: auto;
+  display: none;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  margin: 1rem;
+  border-radius: 8px;
+  align-items: center;
+  background-image: url("https://images.unsplash.com/photo-1571125681108-52fcb1fdace2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80");
+}
+
+#quote-btn-wrapper {
+  margin-top: 2rem;
+}
+
+#level-title {
+  font-family: "Press Start 2P", cursive;
+  font-size: 3rem;
+  margin: 5%;
+  color: #ce481f;
+}
+
+.container {
+  display: block;
+  width: 50%;
+  margin: auto;
+}
+
+.btn {
+  margin: 25px;
+  display: inline-block;
+  height: 200px;
+  width: 200px;
+  border: 10px solid black;
+  border-radius: 20%;
+}
+
+.game-over {
+  background-color: red;
+  opacity: 0.8;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.pressed {
+  box-shadow: 0 0 20px white;
+  background-color: grey;
+}
+.dissapear {
+  box-shadow: 0 0 50px white;
+  filter: brightness(250%);
+}
