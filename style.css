@@ -45,6 +45,11 @@ input[type="password"] {
   background: #981fa8;
 }
 
+#notes-wrapper{
+  margin-top: 32px;
+}
+
+
 #listWrapper {
   align-items: center;
   justify-items: center;
@@ -71,6 +76,7 @@ input[type="password"] {
   flex: auto;
   display: none;
   height: 100vh;
+  width: 95%;
   background-repeat: no-repeat;
   background-size: cover;
   justify-content: center;

@@ -12,6 +12,12 @@ let users = [
     name: "sampleUser",
     password: "qwer@123",
     id: 0,
+    notes: {
+      Math: ["Sample Note for Math", "Sample two for Math"],
+      Science: ["Science note One", "Science Note Two"],
+      English: [],
+      Language: ["Languages were the first set of man made boundaries"],
+    },
   },
 ];
 
@@ -225,6 +231,12 @@ let signup = () => {
       name: username,
       password: password,
       id: users.length,
+      notes: {
+        Math: [],
+        Science: [],
+        English: [],
+        Language: [],
+      },
     };
     users.push(newUser);
 
@@ -246,24 +258,59 @@ let logout = () => {
   toggleRoute("Login");
 };
 
+// the section that prepares and downloads a text file
+// containing the user data
+let makeTextFile = function (text) {
+  var data = new Blob([text], { type: "text/plain" });
+  let textFile = undefined;
+  // If we are replacing a previously generated file we need to
+  // manually revoke the object URL to avoid memory leaks.
+  if (textFile !== null) {
+    window.URL.revokeObjectURL(textFile);
+  }
+
+  textFile = window.URL.createObjectURL(data);
+
+  return textFile;
+};
+
+let downloadData = () => {
+  var link = document.createElement("a");
+  link.style.display = "none";
+  link.setAttribute("download", "data.txt");
+  link.href = makeTextFile(JSON.stringify(users));
+  document.body.appendChild(link);
+
+  // wait for the link to be added to the document
+  window.requestAnimationFrame(function () {
+    var event = new MouseEvent("click");
+    link.dispatchEvent(event);
+    document.body.removeChild(link);
+  });
+};
+
 // this method can display the topic for the subject selected from the dropdown
 let changeSubject = () => {
   let subjectSelector = document.getElementById("subjects");
 
   // step 1. Get the chosen topic of the user
   let topicsToDisplay = [];
+  activeSub = subjects[0];
   switch (subjectSelector.value) {
     case subjects[0]:
       topicsToDisplay = topics.Math;
       break;
     case subjects[1]:
       topicsToDisplay = topics.Science;
+      activeSub = subjects[1];
       break;
     case subjects[2]:
       topicsToDisplay = topics.English;
+      activeSub = subjects[2];
       break;
     case subjects[3]:
       topicsToDisplay = topics.Language;
+      activeSub = subjects[3];
       break;
     default:
       topicsToDisplay = topics.Math;
@@ -346,6 +393,18 @@ let changeSubject = () => {
     listDiv.appendChild(topicTemplate);
   }
 };
+
+document.getElementById("show-notes-btn").addEventListener("click", () => {
+  let homeNotesWrapper = document.getElementById("home-notes");
+  if (homeNotesWrapper.style.display === "block") {
+    document.getElementById("show-notes-btn").innerHTML = "View Notes";
+    homeNotesWrapper.style.display = "none";
+  } else {
+    updateNotes(true);
+    document.getElementById("show-notes-btn").innerHTML = "Hide Notes";
+    homeNotesWrapper.style.display = "block";
+  }
+});
 
 // update the topic based on the selected item in the dropdown
 // this takes the following args:
@@ -448,6 +507,22 @@ document.getElementById("quote-reset-btn").addEventListener("click", () => {
   changeSubject();
 });
 
+document.getElementById("note-save-btn").addEventListener("click", () => {
+  users.forEach((u) => {
+    if (u.id === activeUser.id) {
+      let notesInput = document.getElementById("notes-input-area");
+      let note = notesInput.value;
+      if (!note || note.length < 4) {
+        alert("Notes should be atleast 5 characters long.");
+      } else {
+        u.notes[activeSub].push(notesInput.value);
+        updateNotes(false);
+        notesInput.value = "";
+      }
+    }
+  });
+});
+
 // toggle the visibility of the quote
 let displayQuote = (showQuotes) => {
   if (showQuotes) {
@@ -463,10 +538,24 @@ let displayQuote = (showQuotes) => {
     ).style.backgroundImage = `url('${imagesArr[rndI]}')`;
     document.getElementById("quote-wrapper").style.display = `flex`;
     document.getElementById("list-page-container").style.display = `none`;
+    updateNotes(false);
   } else {
     document.getElementById("quote-wrapper").style.display = `none`;
     document.getElementById("list-page-container").style.display = `flex`;
   }
+};
+
+let updateNotes = (isHome) => {
+  let quotesWrapper = isHome
+    ? document.getElementById("home-notes")
+    : document.getElementById("notes-list");
+  quotesWrapper.innerHTML = "";
+  let notesForSubject = activeUser.notes[activeSub];
+  notesForSubject.forEach((s) => {
+    let noteItem = document.createElement("li");
+    noteItem.innerHTML = s;
+    quotesWrapper.appendChild(noteItem);
+  });
 };
 
 /**
