@@ -554,6 +554,14 @@ let updateNotes = (isHome) => {
   notesForSubject.forEach((s) => {
     let noteItem = document.createElement("li");
     noteItem.innerHTML = s;
+    noteItem.addEventListener("click", (_e) => {
+      let noteIndex = notesForSubject.indexOf(s);
+      let newVal = prompt(`Edit Note: ${s}`);
+      if (newVal) {
+        activeUser.notes[activeSub][noteIndex] = newVal;
+        updateNotes(isHome);
+      }
+    });
     quotesWrapper.appendChild(noteItem);
   });
 };
